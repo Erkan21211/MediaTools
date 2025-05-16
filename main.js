@@ -5,6 +5,11 @@ const fs = require('fs');
 const youtubedl = require('youtube-dl-exec');
 const ffmpegInstaller = require('@ffmpeg-installer/ffmpeg');
 
+
+const ffmpegPath = app.isPackaged
+  ? path.join(process.resourcesPath, 'ffmpeg', ffmpegInstaller.path.split(/[\/\\]/).pop())
+  : ffmpegInstaller.path;
+
 ipcMain.handle('select-download-folder', async () => {
   const result = await dialog.showOpenDialog({
     properties: ['openDirectory']
@@ -16,6 +21,7 @@ ipcMain.handle('select-download-folder', async () => {
 
   return result.filePaths[0]; // Return selected folder path
 });
+
 
 function createWindow() {
   const win = new BrowserWindow({
@@ -29,6 +35,12 @@ function createWindow() {
   });
 
   win.loadFile(path.join(__dirname, 'public', 'index.html'));
+
+
+  // Log elke fout op de pagina
+  win.webContents.on('console-message', (event, level, message, line, sourceId) => {
+    console.log(`[Webview Log] ${message}`);
+  });
 }
 
 // App ready
@@ -48,13 +60,19 @@ app.on('window-all-closed', () => {
 
 // IPC handler voor YouTube conversie
 ipcMain.handle('convert-video', async (event, url, format, folderPath) => {
+  console.log(`[DEBUG] URL ontvangen: ${url}`);
+  console.log(`[DEBUG] Formaat: ${format}`);
+  console.log(`[DEBUG] Folderpad: ${folderPath}`);
+
+
+
   const safeFormat = format === 'mp3' ? 'mp3' : 'mp4';
   const outputPath = folderPath || path.join(os.homedir(), 'Downloads');
   const outputTemplate = path.join(outputPath, '%(title)s.%(ext)s');
 
   const options = {
     output: outputTemplate,
-    ffmpegLocation: ffmpegInstaller.path,
+    ffmpegLocation: ffmpegPath,
   };
 
   if (safeFormat === 'mp3') {
@@ -68,20 +86,21 @@ ipcMain.handle('convert-video', async (event, url, format, folderPath) => {
       format: 'bestvideo+bestaudio'
     });
   }
-  
-  // fixing later
+
+  console.log('[DEBUG] youtube-dl opties:', options);
+
   try {
-    const result = await youtubedl(url, options);
+    console.log(`Starting conversion: ${url} -> ${safeFormat}`);
+    await youtubedl(url, options);
+    console.log("Download complete");
+
     const stdout = result.stdout || result._stdout || '';
-    const match = stdout.match(/Destination: (.+)/);
-    const filePath = match ? match[1].trim() : null;
+    console.log('[DEBUG] youtube-dl uitvoer:', stdout);
 
-    if (!filePath || !fs.existsSync(filePath)) {
-      throw 'Your file is saved'
-    }
-
+    console.log('[DEBUG] Bestand opgeslagen op:', filePath);
     return { success: true, filePath };
   } catch (error) {
-    return { success: false, error: error.message };
+    console.error('[ERROR] Conversiefout:', error);
+    return { success: false, error: error.message || String(error) };
   }
 });

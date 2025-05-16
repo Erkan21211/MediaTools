@@ -105,9 +105,11 @@
       const result = await window.electronAPI.convertVideo(url, format, folderPath);
 
       if (result.success) {
-        status.textContent = `Your file has been success saved to your device ✅`;
+        status.textContent = `✅ Je bestand is succesvol opgeslagen.`;
+        console.log('[DEBUG] Bestand opgeslagen:', result.filePath);
       } else {
-        status.textContent = `Your file has been success saved to your device ✅`;
+        status.textContent = `❌ Er is iets misgegaan: ${result.error || 'Onbekende fout'}`;
+        console.error('[DEBUG] Fout tijdens conversie:', result.error);
       }
     });
   </script>

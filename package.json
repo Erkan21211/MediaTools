@@ -1,26 +1,58 @@
 {
   "name": "youtube-converter",
   "version": "1.0.0",
-  "description": "",
+  "description": "A YouTube media converter",
   "main": "main.js",
   "scripts": {
     "start": "electron .",
-    "build": "electron-packager . youtube-converter --platform=win32 --arch=x64 --overwrite"
+    "build": "electron-builder"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
-  "dependencies": {
-    "@ffmpeg-installer/ffmpeg": "^1.1.0",
-    "@ffprobe-installer/ffprobe": "^2.1.2",
-    "body-parser": "^2.2.0",
-    "electron": "^36.2.1",
-    "express": "^5.1.0",
-    "fluent-ffmpeg": "^2.1.3",
-    "inquirer": "^12.6.1",
-    "youtube-dl-exec": "^3.0.21"
+  "build": {
+    "appId": "com.Erkan.MediaTools",
+    "productName": "YouTubeConverter",
+    "win": {
+      "target": "nsis"
+    },
+    "nsis": {
+      "oneClick": false,
+      "perMachine": false,
+      "allowToChangeInstallationDirectory": true,
+      "createDesktopShortcut": true,
+      "createStartMenuShortcut": true,
+      "shortcutName": "YouTube Converter"
+    },
+    "files": [
+      "**/*",
+      "node_modules/@ffmpeg-installer/**",
+      "node_modules/@ffprobe-installer/**",
+      "node_modules/youtube-dl-exec/**"
+    ],
+    "extraResources": [
+    {
+      "from": "node_modules/@ffmpeg-installer/ffmpeg",
+      "to": "resources/ffmpeg",
+      "filter": ["**/*"]
+    }
+    ],
+    "directories": {
+      "output": "dist"
+    }
   },
-  "devDependencies": {
-    "electron-packager": "^17.1.2"
-  }
+  "dependencies": {
+  "@ffmpeg-installer/ffmpeg": "^1.1.0",
+  "@ffprobe-installer/ffprobe": "^2.1.2",
+  "body-parser": "^2.2.0",
+  "express": "^5.1.0",
+  "fluent-ffmpeg": "^2.1.3",
+  "inquirer": "^12.6.1",
+  "youtube-dl-exec": "^3.0.21"
+},
+"devDependencies": {
+  "electron": "^36.2.1",
+  "electron-packager": "^17.1.2",
+  "electron-builder": "^26.0.12"
+}
 }
