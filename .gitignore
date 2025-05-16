@@ -1,0 +1,21 @@
+# Node modules folder
+node_modules/
+
+# Downloads folder (om grote gedownloade bestanden niet mee te committen)
+downloads/
+
+# Log files
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# OS specifieke bestanden
+.DS_Store
+Thumbs.db
+
+# Electron build output (als je gaat builden)
+out/
+dist/
+
+# VSCode instellingen (optioneel)
+.vscode/

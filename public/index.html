@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>YouTube Converter</title>
+</head>
+<body>
+  <h1>YouTube naar MP3/MP4 Converter</h1>
+  <form id="convert-form">
+    <label for="url">YouTube Link:</label><br>
+    <input type="text" id="url" required><br><br>
+
+    <label for="format">Formaat:</label><br>
+    <select id="format">
+      <option value="mp4">MP4 (video)</option>
+      <option value="mp3">MP3 (audio)</option>
+    </select><br><br>
+
+    <button type="submit">Converteer</button>
+  </form>
+
+  <div id="result"></div>
+
+  <script src="renderer.js"></script>
+</body>
+</html>
