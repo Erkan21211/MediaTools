@@ -11,7 +11,7 @@ ffmpeg (wordt automatisch meegeïnstalleerd via npm pakketten)
 
 1. Clone deze repository:
    ```bash
-   git clone https://github.com/jouwgebruikersnaam/youtube-converter
+   git clone https://github.com/Erkan21211/YouTube-Converter.git
 
 2. Installeer dependencies:
     ```bash
