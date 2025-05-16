@@ -2,7 +2,8 @@
 node_modules/
 
 # Downloads folder (om grote gedownloade bestanden niet mee te committen)
-downloads/
+downloads/*
+!downloads/.gitkeep
 
 # Log files
 npm-debug.log*
