@@ -1,6 +1,6 @@
-# YouTube Converter
+# MediaTools
 
-Een eenvoudige YouTube downloader en converter naar MP3 of MP4, gebouwd met Electron.
+Een eenvoudige downloader en converter naar MP3 of MP4, gebouwd met Electron.
 
 ## Vereisten
 Node.js (versie 14 of hoger) --> https://nodejs.org/en

@@ -5,6 +5,9 @@ node_modules/
 downloads/*
 !downloads/.gitkeep
 
+youtube-converter-win32-x64
+youtube-converter-win32-x64/*
+
 # Log files
 npm-debug.log*
 yarn-debug.log*

@@ -3,24 +3,113 @@
 <head>
   <meta charset="UTF-8">
   <title>YouTube Converter</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f4f4f4;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+
+    .container {
+      background: white;
+      padding: 30px 40px;
+      border-radius: 12px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+      width: 100%;
+      max-width: 500px;
+    }
+
+    h1 {
+      margin-top: 0;
+      margin-bottom: 25px;
+      text-align: center;
+      color: #333;
+    }
+
+    input[type="text"], select {
+      width: 100%;
+      padding: 10px 12px;
+      margin-bottom: 15px;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      font-size: 14px;
+    }
+
+    button {
+      width: 100%;
+      padding: 12px;
+      font-size: 15px;
+      border: none;
+      border-radius: 8px;
+      background: #007bff;
+      color: white;
+      cursor: pointer;
+      transition: background 0.2s ease-in-out;
+      margin-bottom: 10px;
+    }
+
+    button:hover {
+      background: #0056b3;
+    }
+
+    #status {
+      text-align: center;
+      font-size: 14px;
+      margin-top: 15px;
+      color: #555;
+    }
+  </style>
 </head>
 <body>
-  <h1>YouTube naar MP3/MP4 Converter</h1>
-  <form id="convert-form">
-    <label for="url">YouTube Link:</label><br>
-    <input type="text" id="url" required><br><br>
+  <div class="container">
+    <h1>YouTube Converter</h1>
 
-    <label for="format">Formaat:</label><br>
-    <select id="format">
-      <option value="mp4">MP4 (video)</option>
-      <option value="mp3">MP3 (audio)</option>
-    </select><br><br>
+    <input type="text" id="url-input" placeholder="Paste YouTube URL" />
 
-    <button type="submit">Converteer</button>
-  </form>
+    <select class="input" id="format-select">
+      <option value="mp4">MP4</option>
+      <option value="mp3">MP3</option>
+    </select>
 
-  <div id="result"></div>
 
-  <script src="renderer.js"></script>
+    <input type="text" id="folder-path" placeholder="Selected folder will appear here" readonly disabled />
+
+    <button id="choose-folder">Choose Folder</button>
+
+    <button id="convert-button">Convert</button>
+
+    <p id="status"></p>
+  </div>
+
+  <script>
+    document.getElementById('choose-folder').addEventListener('click', async () => {
+      const folder = await window.electronAPI.selectDownloadFolder();
+      if (folder) {
+        document.getElementById('folder-path').value = folder;
+      }
+    });
+
+    document.getElementById('convert-button').addEventListener('click', async () => {
+      const url = document.getElementById('url-input').value;
+      const format = document.getElementById('format-select').value;
+      const folderPath = document.getElementById('folder-path').value;
+
+      const status = document.getElementById('status');
+      status.textContent = 'Converting...';
+
+      const result = await window.electronAPI.convertVideo(url, format, folderPath);
+
+      if (result.success) {
+        status.textContent = `Your file has been success saved to your device ✅`;
+      } else {
+        status.textContent = `Your file has been success saved to your device ✅`;
+      }
+    });
+  </script>
 </body>
 </html>
