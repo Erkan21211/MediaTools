@@ -3,7 +3,7 @@
 Een eenvoudige YouTube downloader en converter naar MP3 of MP4, gebouwd met Electron.
 
 ## Vereisten
-Node.js (versie 14 of hoger)
+Node.js (versie 14 of hoger) --> https://nodejs.org/en
 
 ffmpeg (wordt automatisch meegeïnstalleerd via npm pakketten)
 
@@ -14,8 +14,10 @@ ffmpeg (wordt automatisch meegeïnstalleerd via npm pakketten)
    git clone https://github.com/jouwgebruikersnaam/youtube-converter
 
 2. Installeer dependencies:
+    ```bash
     cd youtube-converter
     npm install
 
 3. Start de app:
+    ```bash
      npm start
